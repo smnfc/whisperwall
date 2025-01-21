@@ -1,23 +1,148 @@
-body {
-    font-family: Arial, sans-serif;
+/* Estilo global */
+* {
     margin: 0;
     padding: 0;
-    text-align: center;
-    background-color: #f7f7f7;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
 }
 
-h1 {
+body {
+    background-color: #f4f4f9;
     color: #333;
+    line-height: 1.6;
 }
 
-p {
-    color: #666;
+/* Header */
+header {
+    background: linear-gradient(135deg, #6C63FF, #7B78FF);
+    color: white;
+    padding: 2rem 1rem;
+    text-align: center;
 }
 
-#story-container {
-    margin: 20px auto;
-    padding: 10px;
-    max-width: 600px;
+header h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+header p {
+    font-size: 1.2rem;
+    margin-top: 0.5rem;
+    opacity: 0.9;
+}
+
+/* Container principal */
+.container {
+    max-width: 960px;
+    margin: 2rem auto;
+    padding: 1rem;
+}
+
+/* Formulário */
+.story-form {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+}
+
+.story-form h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    color: #6C63FF;
+}
+
+.story-form textarea {
+    width: 100%;
+    padding: 1.2rem;
+    font-size: 1rem;
+    margin-bottom: 1rem;
     border: 1px solid #ddd;
-    background-color: #fff;
+    border-radius: 8px;
+    resize: vertical;
+    outline: none;
+    transition: border 0.3s;
+}
+
+.story-form textarea:focus {
+    border: 1px solid #6C63FF;
+}
+
+.story-form button {
+    background: #6C63FF;
+    color: white;
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.story-form button:hover {
+    background: #5a54e5;
+    transform: translateY(-2px);
+}
+
+/* Lista de histórias */
+.stories {
+    margin-top: 2rem;
+}
+
+.stories .story {
+    background: white;
+    margin-bottom: 1.5rem;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.stories .story:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.stories .story h3 {
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+    color: #6C63FF;
+}
+
+.stories .story p {
+    font-size: 1rem;
+    color: #555;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 2rem;
+    }
+
+    header p {
+        font-size: 1rem;
+    }
+
+    .story-form h2 {
+        font-size: 1.5rem;
+    }
+
+    .story-form textarea {
+        font-size: 0.9rem;
+    }
+
+    .story-form button {
+        font-size: 0.9rem;
+        padding: 0.7rem 1.2rem;
+    }
+
+    .stories .story h3 {
+        font-size: 1.2rem;
+    }
+
+    .stories .story p {
+        font-size: 0.9rem;
+    }
 }
