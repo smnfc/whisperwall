@@ -3,15 +3,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Whisper Wall</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Estilo global */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f4f4f9;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #6C63FF, #7B78FF);
+            color: white;
+            padding: 1rem 2rem;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Container principal */
+        .container {
+            max-width: 960px;
+            margin: 2rem auto;
+            padding: 1rem;
+        }
+
+        /* Formulário */
+        .story-form {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .story-form textarea {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            resize: vertical;
+        }
+
+        .story-form button {
+            background: #6C63FF;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .story-form button:hover {
+            background: #7B78FF;
+        }
+
+        /* Lista de histórias */
+        .stories {
+            margin-top: 2rem;
+        }
+
+        .stories .story {
+            background: white;
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .stories .story h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: #6C63FF;
+        }
+
+        .stories .story p {
+            font-size: 1rem;
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to Whisper Wall</h1>
-    <p>Compartilhe suas histórias diárias anonimamente.</p>
-    <div id="story-container">
-        <!-- Histórias aparecerão aqui -->
+    <!-- Cabeçalho -->
+    <header>
+        <h1>Whisper Wall</h1>
+        <p>Compartilhe sua história com o mundo, uma palavra de cada vez.</p>
+    </header>
+
+    <!-- Conteúdo principal -->
+    <div class="container">
+        <!-- Formulário de envio de histórias -->
+        <div class="story-form">
+            <h2>Escreva sua história</h2>
+            <textarea id="storyInput" rows="5" placeholder="Digite sua história aqui..."></textarea>
+            <button id="submitStory">Enviar</button>
+        </div>
+
+        <!-- Lista de histórias -->
+        <div class="stories" id="storiesContainer">
+            <!-- Aqui aparecerão as histórias carregadas -->
+            <div class="story">
+                <h3>História de exemplo</h3>
+                <p>Esta é uma história fictícia para ilustrar o design do site.</p>
+            </div>
+        </div>
     </div>
-    <script src="script.js"></script>
+
+    <!-- JavaScript básico -->
+    <script>
+        const submitButton = document.getElementById('submitStory');
+        const storyInput = document.getElementById('storyInput');
+        const storiesContainer = document.getElementById('storiesContainer');
+
+        // Função para adicionar uma história
+        submitButton.addEventListener('click', () => {
+            const storyText = storyInput.value.trim();
+            if (storyText) {
+                const storyDiv = document.createElement('div');
+                storyDiv.classList.add('story');
+                storyDiv.innerHTML = `
+                    <h3>Nova História</h3>
+                    <p>${storyText}</p>
+                `;
+                storiesContainer.insertBefore(storyDiv, storiesContainer.firstChild);
+                storyInput.value = '';
+            } else {
+                alert('Por favor, escreva algo antes de enviar.');
+            }
+        });
+    </script>
 </body>
 </html>
