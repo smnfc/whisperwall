@@ -5,13 +5,6 @@ body {
     color: #4b3832;
     margin: 0;
     padding: 0;
-    transition: background-color 0.3s ease;
-}
-
-/* Animação geral */
-@keyframes fadeIn {
-    0% { opacity: 0; }
-    100% { opacity: 1; }
 }
 
 /* Container principal */
@@ -23,7 +16,6 @@ body {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     border: 1px solid #e2d4ba;
-    animation: fadeIn 1s ease-out;
 }
 
 /* Títulos */
@@ -31,20 +23,6 @@ h1, h2, h3 {
     font-family: 'Playfair Display', serif;
     color: #6a4c3a;
     margin-bottom: 10px;
-}
-
-/* Formulário de nome */
-.user-name {
-    margin-bottom: 15px;
-}
-
-.user-name input {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #d8c3a5;
-    border-radius: 6px;
-    background-color: #fdf8ef;
 }
 
 /* Entrada de texto */
@@ -62,6 +40,12 @@ textarea {
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
+textarea:focus {
+    outline: none;
+    border-color: #b0855b;
+    box-shadow: 0 0 5px rgba(176, 133, 91, 0.5);
+}
+
 /* Botão de envio */
 button {
     font-family: 'Playfair Display', serif;
@@ -71,13 +55,13 @@ button {
     padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
+    transition: background-color 0.3s, transform 0.2s ease-in-out;
     font-size: 16px;
 }
 
 button:hover {
     background-color: #7a5738;
-    transform: scale(1.05);
+    transform: scale(1.1);
 }
 
 /* Histórias */
@@ -88,7 +72,6 @@ button:hover {
     border: 1px solid #e2d4ba;
     border-radius: 6px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    animation: fadeIn 1s ease-out;
 }
 
 .story h3 {
@@ -105,22 +88,41 @@ button:hover {
     line-height: 1.6;
 }
 
-/* Botões de curtidas, comentários e apagar */
+/* Botões de curtir e comentar */
 button.like-btn, button.comment-btn {
+    font-family: 'Georgia', serif;
+    padding: 5px 15px;
+    font-size: 14px;
+    margin-right: 10px;
+    border-radius: 6px;
+}
+
+button.like-btn {
+    background-color: #f0ad4e;
+    color: white;
+}
+
+button.like-btn:hover {
+    background-color: #ec971f;
+}
+
+button.comment-btn {
     background-color: #5bc0de;
-    color: #fff;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+    color: white;
+}
+
+button.comment-btn:hover {
+    background-color: #31a2b8;
+}
+
+/* Estilo para os comentários */
+.comments {
     margin-top: 10px;
+    padding-left: 20px;
+    font-size: 14px;
 }
 
-button.like-btn:hover, button.comment-btn:hover {
-    background-color: #31b0d5;
-}
-
+/* Botão de apagar */
 button.delete-btn {
     background-color: #d9534f;
     color: #fff;
@@ -147,4 +149,3 @@ button.delete-btn:hover {
         height: 80px;
     }
 }
-
