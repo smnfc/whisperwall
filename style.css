@@ -10,8 +10,7 @@ body {
 /* Cabeçalho */
 header {
     text-align: left; /* Alinhado à esquerda */
-    margin-left: 20px; /* Move o título e subtítulo para a direita */
-    padding: 20px 0;
+    padding: 20px 20px 20px 40px; /* Ajuste para mover o título e subtítulo */
     background-color: #1e1e1e; /* Fundo levemente mais claro para contraste */
 }
 
