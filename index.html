@@ -5,186 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Whisper Wall</title>
-    <style>
-        /* Estilo global */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
-        }
-
-        body {
-            background-color: #f4f4f9;
-            color: #333;
-            line-height: 1.6;
-        }
-
-        /* Header */
-        header {
-            background: linear-gradient(135deg, #6C63FF, #7B78FF);
-            color: white;
-            padding: 1rem 2rem;
-            text-align: center;
-        }
-
-        header h1 {
-            font-size: 2.5rem;
-        }
-
-        header p {
-            font-size: 1.2rem;
-            margin-top: 0.5rem;
-        }
-
-        /* Container principal */
-        .container {
-            max-width: 960px;
-            margin: 2rem auto;
-            padding: 1rem;
-        }
-
-        /* Formulário */
-        .story-form {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .story-form textarea {
-            width: 100%;
-            padding: 1rem;
-            font-size: 1rem;
-            margin-bottom: 1rem;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            resize: vertical;
-        }
-
-        .story-form button {
-            background: #6C63FF;
-            color: white;
-            padding: 0.8rem 1.5rem;
-            font-size: 1rem;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        .story-form button:hover {
-            background: #7B78FF;
-        }
-
-        /* Lista de histórias */
-        .stories {
-            margin-top: 2rem;
-        }
-
-        .stories .story {
-            background: white;
-            margin-bottom: 1.5rem;
-            padding: 1.5rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .stories .story h3 {
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
-            color: #6C63FF;
-        }
-
-        .stories .story p {
-            font-size: 1rem;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://www.gstatic.com/firebasejs/9.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.10.0/firebase-database.js"></script>
+    <script defer src="script.js"></script>
 </head>
 <body>
-    <!-- Cabeçalho -->
-    <header>
-        <h1>Whisper Wall</h1>
-        <p>a diary for everyone</p>
+    <header class="main-header">
+        <div class="header-content">
+            <h1>Whisper Wall</h1>
+            <p>Your daily story hub</p>
+        </div>
     </header>
+    <main class="main-content">
+        <section class="story-form">
+            <h2>Share Your Story</h2>
+            <textarea id="storyInput" rows="5" placeholder="Write your story here..."></textarea>
+            <button id="submitStory">Submit</button>
+        </section>
+        <section class="stories" id="storiesContainer">
+            <!-- Stories will load dynamically here -->
+        </section>
+    </main>
+</body>
+</html>
 
-    <!-- Conteúdo principal -->
-    <div class="container">
-        <!-- Formulário de envio de histórias -->
-        <div class="story-form">
-            <h2>Escreva sua história</h2>
-            <textarea id="storyInput" rows="5" placeholder="Digite sua história aqui..."></textarea>
-            <button id="submitStory">Enviar</button>
-        </div>
-
-        <!-- Lista de histórias -->
-        <div class="stories" id="storiesContainer">
-            <!-- Aqui aparecerão as histórias carregadas -->
-        </div>
-    </div>
-
-    <!-- Firebase e JS -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
-    <script>
-        // Configuração do Firebase
-        const firebaseConfig = {
-            apiKey: "AIzaSyBItWx-Ly7KWA-PixHIvm2uHwgOh5-0NiA",
-            authDomain: "whisperwall-f78d2.firebaseapp.com",
-            databaseURL: "https://whisperwall-f78d2-default-rtdb.firebaseio.com",
-            projectId: "whisperwall-f78d2",
-            storageBucket: "whisperwall-f78d2.firebasestorage.app",
-            messagingSenderId: "783148270853",
-            appId: "1:783148270853:web:74ec6b14c3737660dee36c",
-            measurementId: "G-D6CBGN57YK",
-        };
-
-        // Inicializar Firebase
-        firebase.initializeApp(firebaseConfig);
-        const database = firebase.database();
-
-        // Selecionar elementos do DOM
-        const submitButton = document.getElementById('submitStory');
-        const storyInput = document.getElementById('storyInput');
-        const storiesContainer = document.getElementById('storiesContainer');
-
-        // Função para criar um elemento visual de história
-        function createStoryElement(title, text) {
-            const storyDiv = document.createElement('div');
-            storyDiv.classList.add('story');
-            storyDiv.innerHTML = `
-                <h3>${title}</h3>
-                <p>${text}</p>
-            `;
-            return storyDiv;
-        }
-
-        // Função para carregar histórias do Firebase
-        function loadStoriesFromFirebase() {
-            const storiesRef = database.ref('stories');
-            storiesRef.on('value', (snapshot) => {
-                storiesContainer.innerHTML = ''; // Limpa o container
-                const stories = snapshot.val();
-                if (stories) {
-                    Object.values(stories).forEach((story) => {
-                        const storyElement = createStoryElement(story.title, story.text);
-                        storiesContainer.appendChild(storyElement);
-                    });
-                }
-            });
-        }
-
-        // Evento para capturar o envio de uma nova história
-        submitButton.addEventListener('click', () => {
-            const storyText = storyInput.value.trim();
-            if (storyText) {
-                const storiesRef = database.ref('stories');
-                const newStory = { title: 'Nova História', text: storyText };
-                storiesRef.push(newStory); // Salva a história no Firebase
-                storyInput.value = ''; // Limpa o campo de texto
-            } else {
-                alert('Por favor, escreva algo antes de enviar.');
-            }
-        });
 
        
