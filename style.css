@@ -1,45 +1,116 @@
+/* Configuração geral */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
+    font-family: 'Georgia', serif; /* Estilo de fonte literária */
+    background-color: #f8f5ec; /* Fundo suave, como páginas de um livro antigo */
+    color: #4b3832; /* Texto em marrom escuro para contraste agradável */
     margin: 0;
+    padding: 0;
+}
+
+/* Container principal */
+.container {
+    max-width: 800px;
+    margin: 40px auto;
     padding: 20px;
+    background-color: #fff8e1; /* Fundo levemente amarelado */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra leve */
+    border-radius: 8px; /* Bordas arredondadas */
+    border: 1px solid #e2d4ba; /* Borda suave */
 }
 
-header {
-    text-align: center;
-}
-
-textarea {
-    width: 100%;
-    height: 100px;
-    padding: 10px;
+/* Títulos */
+h1, h2, h3 {
+    font-family: 'Playfair Display', serif; /* Estilo clássico para títulos */
+    color: #6a4c3a; /* Cor destacada para os títulos */
     margin-bottom: 10px;
 }
 
-button {
+/* Entrada de texto */
+textarea {
+    width: 100%;
     padding: 10px;
-    background-color: #4CAF50;
-    color: white;
+    font-family: 'Georgia', serif;
+    font-size: 16px;
+    border: 1px solid #d8c3a5; /* Bordas suaves */
+    border-radius: 6px;
+    background-color: #fdf8ef; /* Fundo mais claro */
+    resize: none;
+    height: 100px;
+    margin-bottom: 15px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+textarea:focus {
+    outline: none;
+    border-color: #b0855b; /* Cor de foco */
+    box-shadow: 0 0 5px rgba(176, 133, 91, 0.5);
+}
+
+/* Botão de envio */
+button {
+    font-family: 'Playfair Display', serif;
+    background-color: #b0855b; /* Tom marrom/dourado */
+    color: #fff; /* Texto branco */
     border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
     cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: 16px;
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #7a5738; /* Tom mais escuro no hover */
 }
 
-#storiesContainer {
-    margin-top: 20px;
-}
-
+/* Histórias */
 .story {
-    background-color: #fff;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #fff; /* Fundo das histórias */
+    border: 1px solid #e2d4ba; /* Borda suave */
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
+.story h3 {
+    font-family: 'Playfair Display', serif;
+    color: #6a4c3a;
+    margin: 0 0 10px;
+    font-size: 18px;
+}
+
+.story p {
+    font-family: 'Georgia', serif;
+    font-size: 16px;
+    color: #4b3832;
+    line-height: 1.6;
+}
+
+/* Botão de apagar */
 button.delete-btn {
-    background-color: red;
+    background-color: #d9534f; /* Vermelho suave */
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+}
+
+button.delete-btn:hover {
+    background-color: #c9302c; /* Cor mais intensa no hover */
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .container {
+        margin: 20px 10px;
+        padding: 15px;
+    }
+
+    textarea {
+        height: 80px;
+    }
 }
