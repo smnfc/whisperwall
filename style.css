@@ -1,10 +1,30 @@
 /* Configuração geral */
 body {
-    font-family: 'Georgia', serif; /* Estilo literário */
-    background-color: #1e1e2f; /* Tom mais escuro para leitura noturna */
-    color: #e6e6e6; /* Texto em cinza claro para contraste */
+    font-family: 'Georgia', serif;
+    background-color: #121212; /* Fundo escuro para leitura noturna */
+    color: #e0e0e0; /* Texto claro para contraste */
     margin: 0;
     padding: 0;
+}
+
+/* Cabeçalho */
+header {
+    text-align: left; /* Alinhado à esquerda */
+    margin-left: 20px; /* Move o título e subtítulo para a direita */
+    padding: 20px 0;
+    background-color: #1e1e1e; /* Fundo levemente mais claro para contraste */
+}
+
+header h1 {
+    font-size: 36px;
+    margin-bottom: 10px;
+    color: #fff; /* Texto do título branco */
+}
+
+header p {
+    font-size: 18px;
+    line-height: 1.6;
+    color: #ccc; /* Subtítulo em tom mais suave */
 }
 
 /* Container principal */
@@ -12,33 +32,26 @@ body {
     max-width: 800px;
     margin: 40px auto;
     padding: 20px;
-    background-color: #29293d; /* Fundo escuro */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); /* Sombra mais densa */
-    border-radius: 10px; /* Bordas arredondadas */
-    border: 1px solid #39395b; /* Borda mais definida */
-}
-
-/* Títulos */
-h1, h2, h3 {
-    font-family: 'Playfair Display', serif;
-    color: #d9b17e; /* Dourado sutil para contraste elegante */
-    margin-bottom: 10px;
+    background-color: #1e1e1e; /* Fundo mais escuro para o container */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4); /* Sombra mais forte */
+    border-radius: 8px;
+    border: 1px solid #333; /* Borda para destacar o container */
 }
 
 /* Entrada de texto */
 textarea {
-    width: calc(100% - 20px); /* Garante que respeite o padding interno do container */
+    width: 100%;
     padding: 10px;
     font-family: 'Georgia', serif;
     font-size: 16px;
-    border: 1px solid #333; /* Ajusta a borda para um contraste mais claro */
+    border: 1px solid #444; /* Bordas escuras */
     border-radius: 6px;
-    background-color: #2e2e2e; /* Fundo mais escuro */
-    color: #fff; /* Texto claro */
+    background-color: #1c1c1c; /* Fundo escuro */
+    color: #e0e0e0; /* Texto claro */
     resize: none;
-    height: 120px; /* Altura ajustada */
+    height: 120px; /* Tamanho ajustado */
     margin-bottom: 15px;
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3); /* Sombra interna */
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 textarea:focus {
@@ -47,49 +60,37 @@ textarea:focus {
     box-shadow: 0 0 5px rgba(176, 133, 91, 0.5);
 }
 
-
 /* Botão de envio */
 button {
     font-family: 'Playfair Display', serif;
-    background-color: #d9b17e; /* Dourado suave */
-    color: #1e1e2f; /* Texto escuro */
+    background-color: #b0855b; /* Tom marrom/dourado */
+    color: #fff;
     border: none;
     padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    transition: all 0.3s ease; /* Transição suave */
     font-size: 16px;
 }
 
 button:hover {
-    background-color: #b79661; /* Tom mais escuro */
-    transform: scale(1.05); /* Leve crescimento */
-}
-
-/* Animações */
-button:active {
-    transform: scale(0.95); /* Leve contração ao clicar */
+    background-color: #7a5738; /* Tom mais escuro no hover */
+    transform: scale(1.05); /* Pequeno aumento no hover */
 }
 
 /* Histórias */
 .story {
     margin-bottom: 20px;
     padding: 15px;
-    background-color: #252536; /* Fundo das histórias */
-    border: 1px solid #39395b;
+    background-color: #1c1c1c; /* Fundo escuro */
+    border: 1px solid #333;
     border-radius: 6px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.story:hover {
-    transform: translateY(-4px); /* Elevação */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .story h3 {
     font-family: 'Playfair Display', serif;
-    color: #d9b17e;
+    color: #e0e0e0; /* Títulos das histórias claros */
     margin: 0 0 10px;
     font-size: 18px;
 }
@@ -97,29 +98,25 @@ button:active {
 .story p {
     font-family: 'Georgia', serif;
     font-size: 16px;
-    color: #e6e6e6;
+    color: #ccc; /* Texto das histórias em tom claro */
     line-height: 1.6;
 }
 
 /* Botão de apagar */
 button.delete-btn {
-    background-color: #d9534f; /* Vermelho */
+    background-color: #d9534f; /* Vermelho suave */
     color: #fff;
     border: none;
-    padding: 8px 12px;
+    padding: 5px 10px;
     border-radius: 4px;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    transition: all 0.3s ease;
     margin-top: 10px;
 }
 
 button.delete-btn:hover {
-    background-color: #c9302c; /* Vermelho mais intenso */
-    transform: scale(1.05);
-}
-
-button.delete-btn:active {
-    transform: scale(0.95);
+    background-color: #c9302c; /* Cor mais intensa no hover */
+    transform: scale(1.05); /* Pequeno aumento no hover */
 }
 
 /* Responsividade */
@@ -130,6 +127,14 @@ button.delete-btn:active {
     }
 
     textarea {
-        height: 100px;
+        height: 100px; /* Reduz altura para telas menores */
+    }
+
+    header h1 {
+        font-size: 28px; /* Reduz tamanho do título */
+    }
+
+    header p {
+        font-size: 16px; /* Reduz tamanho do subtítulo */
     }
 }
