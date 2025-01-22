@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
 import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
-import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js";
+import { getDatabase, ref, push, onValue, remove } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js";
 
 // Configuração do Firebase
 const firebaseConfig = {
@@ -8,7 +8,7 @@ const firebaseConfig = {
     authDomain: "whisperwall-f78d2.firebaseapp.com",
     databaseURL: "https://whisperwall-f78d2-default-rtdb.firebaseio.com",
     projectId: "whisperwall-f78d2",
-    storageBucket: "whisperwall-f78d2.firebasestorage.app",
+    storageBucket: "whisperwall-f78d2.firebase.storage.app",
     messagingSenderId: "783148270853",
     appId: "1:783148270853:web:74ec6b14c3737660dee36c",
     measurementId: "G-D6CBGN57YK"
@@ -24,7 +24,7 @@ const storyInput = document.getElementById("storyInput");
 const submitButton = document.getElementById("submitStory");
 const storiesContainer = document.getElementById("storiesContainer");
 
-// Estado do usuário autenticado
+// Variável para guardar o usuário autenticado
 let currentUser = null;
 
 // Função para autenticar anonimamente
@@ -64,9 +64,14 @@ submitButton.addEventListener("click", () => {
             text: storyText,
             createdBy: currentUser.uid,
             timestamp: Date.now()
-        });
-
-        storyInput.value = "";
+        })
+            .then(() => {
+                console.log("História enviada com sucesso.");
+                storyInput.value = "";
+            })
+            .catch((error) => {
+                console.error("Erro ao enviar história:", error);
+            });
     } else {
         alert("Por favor, escreva uma história antes de enviar!");
     }
@@ -85,9 +90,13 @@ onValue(storiesRef, (snapshot) => {
             const storyDiv = document.createElement("div");
             storyDiv.className = "story";
             storyDiv.innerHTML = `
-                <h3>Story</h3>
+                <h3>Nova História</h3>
                 <p>${story.text}</p>
-                ${story.createdBy === (currentUser ? currentUser.uid : "") ? `<button onclick="deleteStory('${id}')">Apagar</button>` : ""}
+                ${
+                    story.createdBy === (currentUser ? currentUser.uid : "")
+                        ? `<button class="delete-btn" onclick="deleteStory('${id}')">Apagar</button>`
+                        : ""
+                }
             `;
             storiesContainer.appendChild(storyDiv);
         });
@@ -102,7 +111,7 @@ window.deleteStory = (id) => {
     }
 
     const storyRef = ref(database, `stories/${id}`);
-    storyRef.remove()
+    remove(storyRef)
         .then(() => {
             console.log("História apagada com sucesso.");
         })
@@ -110,5 +119,4 @@ window.deleteStory = (id) => {
             console.error("Erro ao apagar história:", error);
         });
 };
-
 
