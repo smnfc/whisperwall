@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
 import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
-import { getDatabase, ref, push, onValue, remove } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js";
+import { getDatabase, ref, push, onValue, remove, update } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js";
 
 // Configuração do Firebase
 const firebaseConfig = {
@@ -23,8 +23,8 @@ const auth = getAuth(app);
 const storyInput = document.getElementById("storyInput");
 const submitButton = document.getElementById("submitStory");
 const storiesContainer = document.getElementById("storiesContainer");
+const userNameInput = document.getElementById("userName");
 
-// Variável para guardar o usuário autenticado
 let currentUser = null;
 
 // Função para autenticar anonimamente
@@ -57,21 +57,25 @@ submitButton.addEventListener("click", () => {
     }
 
     const storyText = storyInput.value.trim();
+    const userName = userNameInput.value.trim();
 
     if (storyText) {
         const storiesRef = ref(database, "stories");
         push(storiesRef, {
             text: storyText,
             createdBy: currentUser.uid,
-            timestamp: Date.now()
+            createdByName: userName || "Anônimo",
+            timestamp: Date.now(),
+            likes: 0,
+            comments: []
         })
-            .then(() => {
-                console.log("História enviada com sucesso.");
-                storyInput.value = "";
-            })
-            .catch((error) => {
-                console.error("Erro ao enviar história:", error);
-            });
+        .then(() => {
+            console.log("História enviada com sucesso.");
+            storyInput.value = "";
+        })
+        .catch((error) => {
+            console.error("Erro ao enviar história:", error);
+        });
     } else {
         alert("Por favor, escreva uma história antes de enviar!");
     }
@@ -80,7 +84,7 @@ submitButton.addEventListener("click", () => {
 // Função para carregar histórias do banco de dados
 const storiesRef = ref(database, "stories");
 onValue(storiesRef, (snapshot) => {
-    storiesContainer.innerHTML = ""; // Limpa o container antes de carregar as histórias
+    storiesContainer.innerHTML = "";
     const stories = snapshot.val();
 
     if (stories) {
@@ -90,18 +94,25 @@ onValue(storiesRef, (snapshot) => {
             const storyDiv = document.createElement("div");
             storyDiv.className = "story";
             storyDiv.innerHTML = `
-                <h3>Nova História</h3>
+                <h3>${story.createdByName || "Anônimo"}</h3>
                 <p>${story.text}</p>
-                ${
-                    story.createdBy === (currentUser ? currentUser.uid : "")
-                        ? `<button class="delete-btn" data-id="${id}">Apagar</button>`
-                        : ""
-                }
+                <p><strong>${story.likes} Curtidas</strong></p>
+                <button class="like-btn" data-id="${id}">Curtir</button>
+                <button class="comment-btn" data-id="${id}">Comentar</button>
+                ${story.createdBy === currentUser.uid ? `<button class="delete-btn" data-id="${id}">Apagar</button>` : ""}
             `;
             storiesContainer.appendChild(storyDiv);
         });
 
-        // Adicionar evento de clique aos botões de apagar
+        // Adicionar evento de clique para os botões de curtir
+        document.querySelectorAll(".like-btn").forEach((button) => {
+            button.addEventListener("click", (e) => {
+                const storyId = e.target.getAttribute("data-id");
+                likeStory(storyId);
+            });
+        });
+
+        // Adicionar evento de clique para os botões de apagar
         document.querySelectorAll(".delete-btn").forEach((button) => {
             button.addEventListener("click", (e) => {
                 const storyId = e.target.getAttribute("data-id");
@@ -111,13 +122,16 @@ onValue(storiesRef, (snapshot) => {
     }
 });
 
-// Função para apagar uma história (somente pelo autor)
-const deleteStory = (id) => {
-    if (!currentUser) {
-        alert("Você precisa estar logado para apagar mensagens.");
-        return;
-    }
+// Função para curtir história
+const likeStory = (id) => {
+    const storyRef = ref(database, `stories/${id}`);
+    update(storyRef, {
+        likes: firebase.database.ServerValue.increment(1)
+    });
+};
 
+// Função para apagar história
+const deleteStory = (id) => {
     const storyRef = ref(database, `stories/${id}`);
     remove(storyRef)
         .then(() => {
