@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
 import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
-import { getDatabase, ref, push, onValue, remove, set, get } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js";
+import { getDatabase, ref, push, onValue, remove, set } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js";
 
 // Configuração do Firebase
 const firebaseConfig = {
@@ -24,9 +24,11 @@ const storyInput = document.getElementById("storyInput");
 const submitButton = document.getElementById("submitStory");
 const storiesContainer = document.getElementById("storiesContainer");
 const userNameInput = document.getElementById("userName");
+const saveUserNameButton = document.getElementById("saveUserName");
 
-// Variável para guardar o usuário autenticado
+// Variáveis para guardar o usuário autenticado
 let currentUser = null;
+let currentUserName = "";
 
 // Função para autenticar anonimamente
 const authenticateUser = () => {
@@ -50,6 +52,16 @@ onAuthStateChanged(auth, (user) => {
     }
 });
 
+// Salvar o nome do usuário
+saveUserNameButton.addEventListener("click", () => {
+    currentUserName = userNameInput.value.trim();
+    if (currentUserName) {
+        alert(`Nome salvo: ${currentUserName}`);
+    } else {
+        alert("Por favor, insira um nome.");
+    }
+});
+
 // Função para adicionar história ao banco de dados
 submitButton.addEventListener("click", () => {
     if (!currentUser) {
@@ -58,14 +70,13 @@ submitButton.addEventListener("click", () => {
     }
 
     const storyText = storyInput.value.trim();
-    const userName = userNameInput.value.trim() || "Anônimo";
 
     if (storyText) {
         const storiesRef = ref(database, "stories");
         push(storiesRef, {
             text: storyText,
             createdBy: currentUser.uid,
-            userName: userName,
+            userName: currentUserName,
             timestamp: Date.now(),
             likes: {},
             comments: {}
@@ -85,7 +96,7 @@ submitButton.addEventListener("click", () => {
 // Função para carregar histórias do banco de dados
 const storiesRef = ref(database, "stories");
 onValue(storiesRef, (snapshot) => {
-    storiesContainer.innerHTML = "";
+    storiesContainer.innerHTML = ""; // Limpa o container antes de carregar as histórias
     const stories = snapshot.val();
 
     if (stories) {
@@ -95,10 +106,10 @@ onValue(storiesRef, (snapshot) => {
             const storyDiv = document.createElement("div");
             storyDiv.className = "story";
             storyDiv.innerHTML = `
-                <h3>${story.userName}</h3>
+                <h3>${story.userName || 'Anônimo'}</h3>
                 <p>${story.text}</p>
                 <div class="actions">
-                    <button class="like-btn" data-id="${id}">${story.likes[currentUser?.uid] ? 'Descurtir' : 'Curtir'}</button>
+                    <button class="like-btn" data-id="${id}">${story.likes[currentUser.uid] ? 'Descurtir' : 'Curtir'}</button>
                     <button class="comment-btn" data-id="${id}">Comentar</button>
                     <button class="delete-btn" data-id="${id}">Apagar</button>
                 </div>
