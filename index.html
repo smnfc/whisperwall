@@ -11,29 +11,30 @@
 <body>
     <header>
         <h1>Whisper Wall</h1>
-        <p>Bem vindo ao seu espaço para compartilhar histórias, pensamentos e inspirações. Aqui, cada palavra tem o poder de conectar, inspirar e transformar.</p>
+        <p>Bem-vindo ao seu espaço para compartilhar histórias, pensamentos e inspirações. Aqui, cada palavra tem o poder de conectar, inspirar e transformar.</p>
     </header>
 
     <main class="container">
+        <!-- Status de autenticação -->
         <div id="loginInfo">
             <p id="authStatus">Conectando...</p>
         </div>
 
+        <!-- Campo de nome do usuário -->
         <div class="user-name">
             <input id="userName" type="text" placeholder="Digite seu nome (opcional)">
         </div>
 
+        <!-- Formulário de envio de história -->
         <div class="story-form">
             <textarea id="storyInput" placeholder="Escreva sua história..."></textarea>
             <button id="submitStory">Enviar</button>
         </div>
 
+        <!-- Container das histórias -->
         <div class="stories" id="storiesContainer"></div>
     </main>
 
     <script type="module" src="script.js"></script>
 </body>
 </html>
-
-
-       
