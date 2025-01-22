@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
-import { getDatabase, ref, push, onValue, remove } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js";
 
 // Configuração do Firebase
 const firebaseConfig = {
@@ -24,15 +24,39 @@ const storyInput = document.getElementById("storyInput");
 const submitButton = document.getElementById("submitStory");
 const storiesContainer = document.getElementById("storiesContainer");
 
+// Estado do usuário autenticado
+let currentUser = null;
+
+// Função para autenticar anonimamente
+const authenticateUser = () => {
+    signInAnonymously(auth)
+        .then(() => {
+            console.log("Usuário autenticado anonimamente.");
+        })
+        .catch((error) => {
+            console.error("Erro ao autenticar:", error);
+        });
+};
+
+// Monitorar mudanças no estado de autenticação
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        currentUser = user;
+        console.log("Usuário autenticado:", user.uid);
+    } else {
+        currentUser = null;
+        authenticateUser();
+    }
+});
+
 // Função para adicionar história ao banco de dados
 submitButton.addEventListener("click", () => {
-    const storyText = storyInput.value.trim();
-    const currentUser = auth.currentUser;
-
     if (!currentUser) {
-        alert("Você precisa estar logado para enviar uma história.");
+        alert("Você precisa estar logado para enviar uma mensagem.");
         return;
     }
+
+    const storyText = storyInput.value.trim();
 
     if (storyText) {
         const storiesRef = ref(database, "stories");
@@ -44,7 +68,7 @@ submitButton.addEventListener("click", () => {
 
         storyInput.value = "";
     } else {
-        alert("Por favor, escreva algo antes de enviar!");
+        alert("Por favor, escreva uma história antes de enviar!");
     }
 });
 
@@ -61,48 +85,30 @@ onValue(storiesRef, (snapshot) => {
             const storyDiv = document.createElement("div");
             storyDiv.className = "story";
             storyDiv.innerHTML = `
-                <h3>História</h3>
+                <h3>Story</h3>
                 <p>${story.text}</p>
-                ${
-                    auth.currentUser && auth.currentUser.uid === story.createdBy
-                        ? `<button class="delete-button" data-id="${id}">Apagar</button>`
-                        : ""
-                }
+                ${story.createdBy === (currentUser ? currentUser.uid : "") ? `<button onclick="deleteStory('${id}')">Apagar</button>` : ""}
             `;
-
             storiesContainer.appendChild(storyDiv);
         });
-
-        // Adicionar evento de exclusão para os botões
-        const deleteButtons = document.querySelectorAll(".delete-button");
-        deleteButtons.forEach((button) => {
-            button.addEventListener("click", (e) => {
-                const storyId = e.target.getAttribute("data-id");
-                deleteStory(storyId);
-            });
-        });
     }
 });
 
-// Função para apagar uma história
-function deleteStory(storyId) {
-    const storyRef = ref(database, `stories/${storyId}`);
-    remove(storyRef)
+// Função para apagar uma história (somente pelo autor)
+window.deleteStory = (id) => {
+    if (!currentUser) {
+        alert("Você precisa estar logado para apagar mensagens.");
+        return;
+    }
+
+    const storyRef = ref(database, `stories/${id}`);
+    storyRef.remove()
         .then(() => {
-            alert("História apagada com sucesso!");
+            console.log("História apagada com sucesso.");
         })
         .catch((error) => {
-            console.error("Erro ao apagar a história:", error);
+            console.error("Erro ao apagar história:", error);
         });
-}
-
-// Verifica mudanças no estado de autenticação
-onAuthStateChanged(auth, (user) => {
-    if (user) {
-        console.log("Usuário logado:", user.uid);
-    } else {
-        console.log("Nenhum usuário logado.");
-    }
-});
+};
 
 
