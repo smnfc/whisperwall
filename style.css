@@ -1,10 +1,17 @@
 /* Configuração geral */
 body {
-    font-family: 'Georgia', serif; /* Estilo de fonte literária */
-    background-color: #f8f5ec; /* Fundo suave, como páginas de um livro antigo */
-    color: #4b3832; /* Texto em marrom escuro para contraste agradável */
+    font-family: 'Georgia', serif;
+    background-color: #f8f5ec;
+    color: #4b3832;
     margin: 0;
     padding: 0;
+    transition: background-color 0.3s ease;
+}
+
+/* Animação geral */
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
 }
 
 /* Container principal */
@@ -12,17 +19,32 @@ body {
     max-width: 800px;
     margin: 40px auto;
     padding: 20px;
-    background-color: #fff8e1; /* Fundo levemente amarelado */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra leve */
-    border-radius: 8px; /* Bordas arredondadas */
-    border: 1px solid #e2d4ba; /* Borda suave */
+    background-color: #fff8e1;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    border: 1px solid #e2d4ba;
+    animation: fadeIn 1s ease-out;
 }
 
 /* Títulos */
 h1, h2, h3 {
-    font-family: 'Playfair Display', serif; /* Estilo clássico para títulos */
-    color: #6a4c3a; /* Cor destacada para os títulos */
+    font-family: 'Playfair Display', serif;
+    color: #6a4c3a;
     margin-bottom: 10px;
+}
+
+/* Formulário de nome */
+.user-name {
+    margin-bottom: 15px;
+}
+
+.user-name input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #d8c3a5;
+    border-radius: 6px;
+    background-color: #fdf8ef;
 }
 
 /* Entrada de texto */
@@ -31,46 +53,42 @@ textarea {
     padding: 10px;
     font-family: 'Georgia', serif;
     font-size: 16px;
-    border: 1px solid #d8c3a5; /* Bordas suaves */
+    border: 1px solid #d8c3a5;
     border-radius: 6px;
-    background-color: #fdf8ef; /* Fundo mais claro */
+    background-color: #fdf8ef;
     resize: none;
     height: 100px;
     margin-bottom: 15px;
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
-textarea:focus {
-    outline: none;
-    border-color: #b0855b; /* Cor de foco */
-    box-shadow: 0 0 5px rgba(176, 133, 91, 0.5);
-}
-
 /* Botão de envio */
 button {
     font-family: 'Playfair Display', serif;
-    background-color: #b0855b; /* Tom marrom/dourado */
-    color: #fff; /* Texto branco */
+    background-color: #b0855b;
+    color: #fff;
     border: none;
     padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, transform 0.2s;
     font-size: 16px;
 }
 
 button:hover {
-    background-color: #7a5738; /* Tom mais escuro no hover */
+    background-color: #7a5738;
+    transform: scale(1.05);
 }
 
 /* Histórias */
 .story {
     margin-bottom: 20px;
     padding: 15px;
-    background-color: #fff; /* Fundo das histórias */
-    border: 1px solid #e2d4ba; /* Borda suave */
+    background-color: #fff;
+    border: 1px solid #e2d4ba;
     border-radius: 6px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    animation: fadeIn 1s ease-out;
 }
 
 .story h3 {
@@ -87,9 +105,24 @@ button:hover {
     line-height: 1.6;
 }
 
-/* Botão de apagar */
+/* Botões de curtidas, comentários e apagar */
+button.like-btn, button.comment-btn {
+    background-color: #5bc0de;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+}
+
+button.like-btn:hover, button.comment-btn:hover {
+    background-color: #31b0d5;
+}
+
 button.delete-btn {
-    background-color: #d9534f; /* Vermelho suave */
+    background-color: #d9534f;
     color: #fff;
     border: none;
     padding: 5px 10px;
@@ -100,7 +133,7 @@ button.delete-btn {
 }
 
 button.delete-btn:hover {
-    background-color: #c9302c; /* Cor mais intensa no hover */
+    background-color: #c9302c;
 }
 
 /* Responsividade */
