@@ -1,42 +1,49 @@
-import { initializeApp } from "firebase/app";
-import { getDatabase, ref, set, onChildAdded } from "firebase/database";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-app.js";
+import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-database.js";
 
+const firebaseConfig = {
+    apiKey: "AIzaSyBItWx-Ly7KWA-PixHIvm2uHwgOh5-0NiA",
+    authDomain: "whisperwall-f78d2.firebaseapp.com",
+    databaseURL: "https://whisperwall-f78d2-default-rtdb.firebaseio.com",
+    projectId: "whisperwall-f78d2",
+    storageBucket: "whisperwall-f78d2.appspot.com",
+    messagingSenderId: "783148270853",
+    appId: "1:783148270853:web:74ec6b14c3737660dee36c",
+    measurementId: "G-D6CBGN57YK"
+};
+
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const database = getDatabase(app);
+const db = getDatabase(app);
 
-const submitButton = document.getElementById('submitStory');
 const storyInput = document.getElementById('storyInput');
+const submitButton = document.getElementById('submitStory');
 const storiesContainer = document.getElementById('storiesContainer');
 
-// Enviar a história
+// Add story to Firebase
 submitButton.addEventListener('click', () => {
-  const storyText = storyInput.value.trim();
-  if (storyText) {
-    const newStoryRef = ref(database, 'stories').push();
-    set(newStoryRef, {
-      text: storyText,
-      timestamp: Date.now()
-    })
-    .then(() => {
-      storyInput.value = '';
-    })
-    .catch(error => {
-      console.error('Erro ao enviar a história:', error);
-    });
-  } else {
-    alert('Por favor, escreva algo antes de enviar.');
-  }
+    const storyText = storyInput.value.trim();
+    if (storyText) {
+        const storiesRef = ref(db, 'stories');
+        push(storiesRef, { text: storyText, timestamp: Date.now() });
+        storyInput.value = '';
+    } else {
+        alert('Please write a story before submitting.');
+    }
 });
 
-// Carregar histórias
-onChildAdded(ref(database, 'stories'), (snapshot) => {
-  const story = snapshot.val();
-  const storyDiv = document.createElement('div');
-  storyDiv.classList.add('story');
-  storyDiv.innerHTML = `
-    <h3>Nova História</h3>
-    <p>${story.text}</p>
-  `;
-  storiesContainer.insertBefore(storyDiv, storiesContainer.firstChild);
+// Fetch stories from Firebase
+onValue(ref(db, 'stories'), (snapshot) => {
+    storiesContainer.innerHTML = '';
+    const data = snapshot.val();
+    if (data) {
+        const storiesArray = Object.values(data).sort((a, b) => b.timestamp - a.timestamp);
+        storiesArray.forEach(story => {
+            const storyDiv = document.createElement('div');
+            storyDiv.className = 'story';
+            storyDiv.innerHTML = `<h3>Anonymous</h3><p>${story.text}</p>`;
+            storiesContainer.appendChild(storyDiv);
+        });
+    }
 });
 
