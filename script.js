@@ -1,5 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
-import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js";
+import { getDatabase, ref, push, onValue, remove } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
 
 // Configuração do Firebase
 const firebaseConfig = {
@@ -16,6 +17,7 @@ const firebaseConfig = {
 // Inicializando Firebase
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
+const auth = getAuth(app);
 
 // Elementos do DOM
 const storyInput = document.getElementById("storyInput");
@@ -25,17 +27,24 @@ const storiesContainer = document.getElementById("storiesContainer");
 // Função para adicionar história ao banco de dados
 submitButton.addEventListener("click", () => {
     const storyText = storyInput.value.trim();
+    const currentUser = auth.currentUser;
+
+    if (!currentUser) {
+        alert("Você precisa estar logado para enviar uma história.");
+        return;
+    }
 
     if (storyText) {
         const storiesRef = ref(database, "stories");
         push(storiesRef, {
             text: storyText,
+            createdBy: currentUser.uid,
             timestamp: Date.now()
         });
 
         storyInput.value = "";
     } else {
-        alert("Please write a story before submitting!");
+        alert("Por favor, escreva algo antes de enviar!");
     }
 });
 
@@ -52,11 +61,48 @@ onValue(storiesRef, (snapshot) => {
             const storyDiv = document.createElement("div");
             storyDiv.className = "story";
             storyDiv.innerHTML = `
-                <h3>Story</h3>
+                <h3>História</h3>
                 <p>${story.text}</p>
+                ${
+                    auth.currentUser && auth.currentUser.uid === story.createdBy
+                        ? `<button class="delete-button" data-id="${id}">Apagar</button>`
+                        : ""
+                }
             `;
+
             storiesContainer.appendChild(storyDiv);
+        });
+
+        // Adicionar evento de exclusão para os botões
+        const deleteButtons = document.querySelectorAll(".delete-button");
+        deleteButtons.forEach((button) => {
+            button.addEventListener("click", (e) => {
+                const storyId = e.target.getAttribute("data-id");
+                deleteStory(storyId);
+            });
         });
     }
 });
+
+// Função para apagar uma história
+function deleteStory(storyId) {
+    const storyRef = ref(database, `stories/${storyId}`);
+    remove(storyRef)
+        .then(() => {
+            alert("História apagada com sucesso!");
+        })
+        .catch((error) => {
+            console.error("Erro ao apagar a história:", error);
+        });
+}
+
+// Verifica mudanças no estado de autenticação
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        console.log("Usuário logado:", user.uid);
+    } else {
+        console.log("Nenhum usuário logado.");
+    }
+});
+
 
