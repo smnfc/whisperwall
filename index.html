@@ -15,23 +15,16 @@
     </header>
 
     <main class="container">
-        <!-- Status de autenticação -->
         <div id="loginInfo">
             <p id="authStatus">Conectando...</p>
         </div>
 
-        <!-- Campo de nome do usuário -->
-        <div class="user-name">
-            <input id="userName" type="text" placeholder="Digite seu nome (opcional)">
-        </div>
-
-        <!-- Formulário de envio de história -->
         <div class="story-form">
+            <input type="text" id="userName" placeholder="Digite seu nome (opcional)">
             <textarea id="storyInput" placeholder="Escreva sua história..."></textarea>
             <button id="submitStory">Enviar</button>
         </div>
 
-        <!-- Container das histórias -->
         <div class="stories" id="storiesContainer"></div>
     </main>
 
