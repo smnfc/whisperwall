@@ -8,7 +8,7 @@ const firebaseConfig = {
     authDomain: "whisperwall-f78d2.firebaseapp.com",
     databaseURL: "https://whisperwall-f78d2-default-rtdb.firebaseio.com",
     projectId: "whisperwall-f78d2",
-    storageBucket: "whisperwall-f78d2.firebaseapp.com",
+    storageBucket: "whisperwall-f78d2.firebase.storage.app",
     messagingSenderId: "783148270853",
     appId: "1:783148270853:web:74ec6b14c3737660dee36c",
     measurementId: "G-D6CBGN57YK"
@@ -19,88 +19,111 @@ const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 const auth = getAuth(app);
 
-// Referências do DOM
+// Elementos do DOM
 const storyInput = document.getElementById("storyInput");
 const submitButton = document.getElementById("submitStory");
 const storiesContainer = document.getElementById("storiesContainer");
-const userNameInput = document.getElementById("userName");
-const saveUserNameButton = document.getElementById("saveUserName");
 
-// Variáveis de usuário
+// Variável para guardar o usuário autenticado
 let currentUser = null;
-let currentUserName = 'Anônimo';
 
-// Autenticação
+// Função para autenticar anonimamente
 const authenticateUser = () => {
     signInAnonymously(auth)
-        .then(() => console.log("Usuário autenticado"))
-        .catch(error => console.error("Erro ao autenticar:", error));
+        .then(() => {
+            console.log("Usuário autenticado anonimamente.");
+        })
+        .catch((error) => {
+            console.error("Erro ao autenticar:", error);
+        });
 };
 
+// Monitorar mudanças no estado de autenticação
 onAuthStateChanged(auth, (user) => {
     if (user) {
         currentUser = user;
+        console.log("Usuário autenticado:", user.uid);
     } else {
+        currentUser = null;
         authenticateUser();
     }
 });
 
-// Salvar nome do usuário
-saveUserNameButton.addEventListener('click', () => {
-    currentUserName = userNameInput.value.trim() || 'Anônimo';
-    alert("Nome salvo!");
-});
-
-// Enviar história
+// Função para adicionar história ao banco de dados
 submitButton.addEventListener("click", () => {
     if (!currentUser) {
-        alert("Você precisa estar logado para enviar uma história.");
+        alert("Você precisa estar logado para enviar uma mensagem.");
         return;
     }
 
     const storyText = storyInput.value.trim();
+
     if (storyText) {
         const storiesRef = ref(database, "stories");
         push(storiesRef, {
             text: storyText,
             createdBy: currentUser.uid,
-            userName: currentUserName,
             timestamp: Date.now()
         })
-        .then(() => {
-            console.log("História enviada com sucesso.");
-            storyInput.value = ""; // Limpar o campo
-        })
-        .catch(error => console.error("Erro ao enviar história:", error));
+            .then(() => {
+                console.log("História enviada com sucesso.");
+                storyInput.value = "";
+            })
+            .catch((error) => {
+                console.error("Erro ao enviar história:", error);
+            });
+    } else {
+        alert("Por favor, escreva uma história antes de enviar!");
     }
 });
 
-// Exibir histórias
+// Função para carregar histórias do banco de dados
 const storiesRef = ref(database, "stories");
 onValue(storiesRef, (snapshot) => {
-    storiesContainer.innerHTML = "";
+    storiesContainer.innerHTML = ""; // Limpa o container antes de carregar as histórias
     const stories = snapshot.val();
 
     if (stories) {
-        Object.entries(stories).forEach(([id, story]) => {
+        const sortedStories = Object.entries(stories).sort((a, b) => b[1].timestamp - a[1].timestamp);
+
+        sortedStories.forEach(([id, story]) => {
             const storyDiv = document.createElement("div");
             storyDiv.className = "story";
-            storyDiv.innerHTML = `
-                <h3>${story.userName}</h3>
+            storyDiv.innerHTML = 
+                <h3>Nova História</h3>
                 <p>${story.text}</p>
-                <button class="delete-btn" data-id="${id}">Apagar</button>
-            `;
-            storiesContainer.appendChild(storyDiv);
-
-            // Apagar história
-            document.querySelector(`.delete-btn[data-id="${id}"]`).addEventListener('click', () => {
-                if (story.createdBy === currentUser.uid) {
-                    const storyRef = ref(database, `stories/${id}`);
-                    remove(storyRef)
-                        .then(() => console.log("História apagada com sucesso"))
-                        .catch(error => console.error("Erro ao apagar história:", error));
+                ${
+                    story.createdBy === (currentUser ? currentUser.uid : "")
+                        ? <button class="delete-btn" data-id="${id}">Apagar</button>
+                        : ""
                 }
+            ;
+            storiesContainer.appendChild(storyDiv);
+        });
+
+        // Adicionar evento de clique aos botões de apagar
+        document.querySelectorAll(".delete-btn").forEach((button) => {
+            button.addEventListener("click", (e) => {
+                const storyId = e.target.getAttribute("data-id");
+                deleteStory(storyId);
             });
         });
     }
 });
+
+// Função para apagar uma história (somente pelo autor)
+const deleteStory = (id) => {
+    if (!currentUser) {
+        alert("Você precisa estar logado para apagar mensagens.");
+        return;
+    }
+
+    const storyRef = ref(database, stories/${id});
+    remove(storyRef)
+        .then(() => {
+            console.log("História apagada com sucesso.");
+        })
+        .catch((error) => {
+            console.error("Erro ao apagar história:", error);
+        });
+};
