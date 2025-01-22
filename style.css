@@ -1,60 +1,31 @@
-/* Configuração geral */
-body {
-    font-family: 'Georgia', serif;
-    background-color: #121212; /* Fundo escuro para leitura noturna */
-    color: #e0e0e0; /* Texto claro para contraste */
-    margin: 0;
-    padding: 0;
-}
-
-/* Cabeçalho */
-header {
-    text-align: left; /* Alinhado à esquerda */
-    padding: 20px 20px 20px 40px; /* Ajuste para mover o título e subtítulo */
-    background-color: #1e1e1e; /* Fundo levemente mais claro para contraste */
-}
-
-header h1 {
-    font-size: 36px;
-    margin-bottom: 10px;
-    color: #fff; /* Texto do título branco */
-}
-
-header p {
-    font-size: 18px;
-    line-height: 1.6;
-    color: #ccc; /* Subtítulo em tom mais suave */
-}
-
-/* Container principal */
-.container {
-    max-width: 800px;
-    margin: 40px auto;
-    padding: 20px;
-    background-color: #1e1e1e; /* Fundo mais escuro para o container */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4); /* Sombra mais forte */
-    border-radius: 8px;
-    border: 1px solid #333; /* Borda para destacar o container */
-}
-
 /* Entrada de texto */
 textarea {
     width: 100%;
+    padding: 12px;
+    width: calc(100% - 20px); /* Garante que respeite o padding interno do container */
     padding: 10px;
     font-family: 'Georgia', serif;
     font-size: 16px;
-    border: 1px solid #444; /* Bordas escuras */
+    border: 1px solid #575767; /* Bordas suaves */
+    border: 1px solid #333; /* Ajusta a borda para um contraste mais claro */
     border-radius: 6px;
-    background-color: #1c1c1c; /* Fundo escuro */
-    color: #e0e0e0; /* Texto claro */
+    background-color: #222233; /* Fundo mais escuro */
+    color: #e6e6e6; /* Texto claro */
+    background-color: #2e2e2e; /* Fundo mais escuro */
+    color: #fff; /* Texto claro */
     resize: none;
-    height: 120px; /* Tamanho ajustado */
+    height: 120px;
+    height: 120px; /* Altura ajustada */
     margin-bottom: 15px;
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3); /* Sombra interna */
 }
 
 textarea:focus {
     outline: none;
+    border-color: #d9b17e; /* Cor de foco */
+    box-shadow: 0 0 8px rgba(217, 177, 126, 0.8);
     border-color: #b0855b; /* Cor de foco */
     box-shadow: 0 0 5px rgba(176, 133, 91, 0.5);
 }
@@ -62,34 +33,45 @@ textarea:focus {
 /* Botão de envio */
 button {
     font-family: 'Playfair Display', serif;
-    background-color: #b0855b; /* Tom marrom/dourado */
-    color: #fff;
+    background-color: #d9b17e; /* Dourado suave */
+    color: #1e1e2f; /* Texto escuro */
     border: none;
     padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
-    transition: all 0.3s ease; /* Transição suave */
+    transition: background-color 0.3s ease, transform 0.2s ease;
     font-size: 16px;
 }
 
 button:hover {
-    background-color: #7a5738; /* Tom mais escuro no hover */
-    transform: scale(1.05); /* Pequeno aumento no hover */
+    background-color: #b79661; /* Tom mais escuro */
+    transform: scale(1.05); /* Leve crescimento */
+}
+
+/* Animações */
+button:active {
+    transform: scale(0.95); /* Leve contração ao clicar */
 }
 
 /* Histórias */
 .story {
     margin-bottom: 20px;
     padding: 15px;
-    background-color: #1c1c1c; /* Fundo escuro */
-    border: 1px solid #333;
+    background-color: #252536; /* Fundo das histórias */
+    border: 1px solid #39395b;
     border-radius: 6px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.story:hover {
+    transform: translateY(-4px); /* Elevação */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
 }
 
 .story h3 {
     font-family: 'Playfair Display', serif;
-    color: #e0e0e0; /* Títulos das histórias claros */
+    color: #d9b17e;
     margin: 0 0 10px;
     font-size: 18px;
 }
@@ -97,25 +79,29 @@ button:hover {
 .story p {
     font-family: 'Georgia', serif;
     font-size: 16px;
-    color: #ccc; /* Texto das histórias em tom claro */
+    color: #e6e6e6;
     line-height: 1.6;
 }
 
 /* Botão de apagar */
 button.delete-btn {
-    background-color: #d9534f; /* Vermelho suave */
+    background-color: #d9534f; /* Vermelho */
     color: #fff;
     border: none;
-    padding: 5px 10px;
+    padding: 8px 12px;
     border-radius: 4px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease;
     margin-top: 10px;
 }
 
 button.delete-btn:hover {
-    background-color: #c9302c; /* Cor mais intensa no hover */
-    transform: scale(1.05); /* Pequeno aumento no hover */
+    background-color: #c9302c; /* Vermelho mais intenso */
+    transform: scale(1.05);
+}
+
+button.delete-btn:active {
+    transform: scale(0.95);
 }
 
 /* Responsividade */
@@ -126,14 +112,6 @@ button.delete-btn:hover {
     }
 
     textarea {
-        height: 100px; /* Reduz altura para telas menores */
-    }
-
-    header h1 {
-        font-size: 28px; /* Reduz tamanho do título */
-    }
-
-    header p {
-        font-size: 16px; /* Reduz tamanho do subtítulo */
+        height: 100px;
     }
 }
