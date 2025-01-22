@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
 import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
-import { getDatabase, ref, push, onValue, remove, update } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js";
+import { getDatabase, ref, push, onValue, remove } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js";
 
 // Configuração do Firebase
 const firebaseConfig = {
@@ -19,35 +19,28 @@ const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 const auth = getAuth(app);
 
-// Elementos do DOM
+// Referências do DOM
 const storyInput = document.getElementById("storyInput");
 const submitButton = document.getElementById("submitStory");
 const storiesContainer = document.getElementById("storiesContainer");
 const userNameInput = document.getElementById("userName");
 const saveUserNameButton = document.getElementById("saveUserName");
 
-// Variáveis
+// Variáveis de usuário
 let currentUser = null;
 let currentUserName = 'Anônimo';
 
-// Função para autenticar anonimamente
+// Autenticação
 const authenticateUser = () => {
     signInAnonymously(auth)
-        .then(() => {
-            console.log("Usuário autenticado anonimamente.");
-        })
-        .catch((error) => {
-            console.error("Erro ao autenticar:", error);
-        });
+        .then(() => console.log("Usuário autenticado"))
+        .catch(error => console.error("Erro ao autenticar:", error));
 };
 
-// Monitorar mudanças no estado de autenticação
 onAuthStateChanged(auth, (user) => {
     if (user) {
         currentUser = user;
-        console.log("Usuário autenticado:", user.uid);
     } else {
-        currentUser = null;
         authenticateUser();
     }
 });
@@ -58,82 +51,56 @@ saveUserNameButton.addEventListener('click', () => {
     alert("Nome salvo!");
 });
 
-// Função para enviar histórias
+// Enviar história
 submitButton.addEventListener("click", () => {
     if (!currentUser) {
-        alert("Você precisa estar logado para enviar uma mensagem.");
+        alert("Você precisa estar logado para enviar uma história.");
         return;
     }
 
     const storyText = storyInput.value.trim();
-
     if (storyText) {
         const storiesRef = ref(database, "stories");
         push(storiesRef, {
             text: storyText,
             createdBy: currentUser.uid,
             userName: currentUserName,
-            timestamp: Date.now(),
-            likes: {},
-            comments: {}
+            timestamp: Date.now()
         })
-            .then(() => {
-                console.log("História enviada com sucesso.");
-                storyInput.value = "";
-            })
-            .catch((error) => {
-                console.error("Erro ao enviar história:", error);
-            });
-    } else {
-        alert("Por favor, escreva uma história antes de enviar!");
+        .then(() => {
+            console.log("História enviada com sucesso.");
+            storyInput.value = ""; // Limpar o campo
+        })
+        .catch(error => console.error("Erro ao enviar história:", error));
     }
 });
 
-// Função para carregar histórias
+// Exibir histórias
 const storiesRef = ref(database, "stories");
 onValue(storiesRef, (snapshot) => {
     storiesContainer.innerHTML = "";
     const stories = snapshot.val();
 
     if (stories) {
-        const sortedStories = Object.entries(stories).sort((a, b) => b[1].timestamp - a[1].timestamp);
-
-        sortedStories.forEach(([id, story]) => {
+        Object.entries(stories).forEach(([id, story]) => {
             const storyDiv = document.createElement("div");
             storyDiv.className = "story";
             storyDiv.innerHTML = `
                 <h3>${story.userName}</h3>
                 <p>${story.text}</p>
-                <button class="like-btn" data-id="${id}">Curtir</button>
-                <button class="comment-btn" data-id="${id}">Comentar</button>
-                ${story.createdBy === currentUser.uid ? `<button class="delete-btn" data-id="${id}">Apagar</button>` : ""}
+                <button class="delete-btn" data-id="${id}">Apagar</button>
             `;
             storiesContainer.appendChild(storyDiv);
 
-            // Curtir
-            document.querySelector(`.like-btn[data-id="${id}"]`).addEventListener('click', () => {
-                const likesRef = ref(database, `stories/${id}/likes/${currentUser.uid}`);
-                update(likesRef, { liked: true });
-            });
-
-            // Comentar
-            document.querySelector(`.comment-btn[data-id="${id}"]`).addEventListener('click', () => {
-                const comment = prompt("Escreva seu comentário:");
-                if (comment) {
-                    const commentsRef = ref(database, `stories/${id}/comments`);
-                    push(commentsRef, { comment, user: currentUserName, timestamp: Date.now() });
+            // Apagar história
+            document.querySelector(`.delete-btn[data-id="${id}"]`).addEventListener('click', () => {
+                if (story.createdBy === currentUser.uid) {
+                    const storyRef = ref(database, `stories/${id}`);
+                    remove(storyRef)
+                        .then(() => console.log("História apagada com sucesso"))
+                        .catch(error => console.error("Erro ao apagar história:", error));
                 }
             });
-
-            // Apagar história
-            if (story.createdBy === currentUser.uid) {
-                document.querySelector(`.delete-btn[data-id="${id}"]`).addEventListener('click', () => {
-                    const storyRef = ref(database, `stories/${id}`);
-                    remove(storyRef).then(() => {
-                        console.log("História apagada com sucesso.");
-                    });
-                });
-            }
         });
     }
 });
