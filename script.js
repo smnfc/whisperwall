@@ -8,7 +8,7 @@ const firebaseConfig = {
     authDomain: "whisperwall-f78d2.firebaseapp.com",
     databaseURL: "https://whisperwall-f78d2-default-rtdb.firebaseio.com",
     projectId: "whisperwall-f78d2",
-    storageBucket: "whisperwall-f78d2.firebase.storage.app",
+    storageBucket: "whisperwall-f78d2.firebaseapp.com",
     messagingSenderId: "783148270853",
     appId: "1:783148270853:web:74ec6b14c3737660dee36c",
     measurementId: "G-D6CBGN57YK"
