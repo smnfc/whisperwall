@@ -1,96 +1,117 @@
-/* Reset básico */
-* {
+/* Configuração geral */
+body {
+    font-family: 'Georgia', serif; /* Estilo de fonte literária */
+    background-color: #f8f5ec; /* Fundo suave, como páginas de um livro antigo */
+    color: #4b3832; /* Texto em marrom escuro para contraste agradável */
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
 }
 
-/* Estilo do corpo */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
-    color: #333;
-    line-height: 1.6;
-}
-
-/* Cabeçalho */
-header {
-    background: linear-gradient(135deg, #6c63ff, #7b78ff);
-    color: #fff;
-    text-align: center;
-    padding: 1.5rem 0;
-}
-
-header h1 {
-    font-size: 2.5rem;
-    margin-bottom: 0.5rem;
-}
-
-header p {
-    font-size: 1.2rem;
-}
-
-/* Área principal */
-main {
+/* Container principal */
+.container {
     max-width: 800px;
-    margin: 2rem auto;
-    padding: 1rem;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #fff8e1; /* Fundo levemente amarelado */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra leve */
+    border-radius: 8px; /* Bordas arredondadas */
+    border: 1px solid #e2d4ba; /* Borda suave */
 }
 
-.form-section, .stories-section {
-    background: #fff;
-    padding: 1.5rem;
-    border-radius: 10px;
-    margin-bottom: 2rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+/* Títulos */
+h1, h2, h3 {
+    font-family: 'Playfair Display', serif; /* Estilo clássico para títulos */
+    color: #6a4c3a; /* Cor destacada para os títulos */
+    margin-bottom: 10px;
 }
 
-h2 {
-    font-size: 1.8rem;
-    margin-bottom: 1rem;
-}
-
+/* Entrada de texto */
 textarea {
     width: 100%;
-    padding: 1rem;
-    font-size: 1rem;
-    margin-bottom: 1rem;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    resize: vertical;
+    padding: 10px;
+    font-family: 'Georgia', serif;
+    font-size: 16px;
+    border: 1px solid #d8c3a5; /* Bordas suaves */
+    border-radius: 6px;
+    background-color: #fdf8ef; /* Fundo mais claro */
+    resize: none;
+    height: 100px;
+    margin-bottom: 15px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
+textarea:focus {
+    outline: none;
+    border-color: #b0855b; /* Cor de foco */
+    box-shadow: 0 0 5px rgba(176, 133, 91, 0.5);
+}
+
+/* Botão de envio */
 button {
-    background-color: #6c63ff;
-    color: white;
-    padding: 0.8rem 1.5rem;
+    font-family: 'Playfair Display', serif;
+    background-color: #b0855b; /* Tom marrom/dourado */
+    color: #fff; /* Texto branco */
     border: none;
-    border-radius: 8px;
+    padding: 10px 20px;
+    border-radius: 5px;
     cursor: pointer;
-    font-size: 1rem;
+    transition: background-color 0.3s;
+    font-size: 16px;
 }
 
 button:hover {
-    background-color: #7b78ff;
+    background-color: #7a5738; /* Tom mais escuro no hover */
 }
 
 /* Histórias */
-.stories-section .story {
-    background: #f9f9f9;
-    padding: 1rem;
-    border-radius: 8px;
-    margin-bottom: 1rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+.story {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #fff; /* Fundo das histórias */
+    border: 1px solid #e2d4ba; /* Borda suave */
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .story h3 {
-    font-size: 1.2rem;
-    color: #6c63ff;
-    margin-bottom: 0.5rem;
+    font-family: 'Playfair Display', serif;
+    color: #6a4c3a;
+    margin: 0 0 10px;
+    font-size: 18px;
 }
 
 .story p {
-    font-size: 1rem;
-    color: #555;
+    font-family: 'Georgia', serif;
+    font-size: 16px;
+    color: #4b3832;
+    line-height: 1.6;
+}
+
+/* Botão de apagar */
+button.delete-btn {
+    background-color: #d9534f; /* Vermelho suave */
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+}
+
+button.delete-btn:hover {
+    background-color: #c9302c; /* Cor mais intensa no hover */
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .container {
+        margin: 20px 10px;
+        padding: 15px;
+    }
+
+    textarea {
+        height: 80px;
+    }
 }
 
