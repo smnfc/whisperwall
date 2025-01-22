@@ -3,33 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Whisper Wall</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
         <h1>Whisper Wall</h1>
-        <p>Compartilhe histórias e pensamentos. Cada palavra conecta.</p>
+        <p>Compartilhe suas histórias e pensamentos!</p>
     </header>
 
-    <main class="container">
-        <div id="loginInfo">
-            <p id="authStatus">Conectando...</p>
-        </div>
-
-        <div class="user-info">
-            <input type="text" id="userName" placeholder="Digite seu nome" />
+    <main>
+        <div>
+            <input type="text" id="userName" placeholder="Digite seu nome"/>
             <button id="saveUserName">Salvar Nome</button>
         </div>
 
-        <div class="story-form">
-            <textarea id="storyInput" placeholder="Escreva sua história..."></textarea>
-            <button id="submitStory">Enviar</button>
-        </div>
+        <textarea id="storyInput" placeholder="Escreva sua história..."></textarea>
+        <button id="submitStory">Enviar</button>
 
-        <div class="stories" id="storiesContainer"></div>
+        <div id="storiesContainer"></div>
     </main>
 
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js"></script>
