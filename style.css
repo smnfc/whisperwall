@@ -1,104 +1,91 @@
-/* Global Styles */
+/* Reset básico */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Arial', sans-serif;
 }
 
+/* Estilo do corpo */
 body {
+    font-family: Arial, sans-serif;
     background-color: #f4f4f9;
     color: #333;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
+    line-height: 1.6;
 }
 
-/* Header Styles */
-.main-header {
-    width: 100%;
-    background: linear-gradient(135deg, #6C63FF, #7B78FF);
-    color: white;
-    padding: 2rem 0;
+/* Cabeçalho */
+header {
+    background: linear-gradient(135deg, #6c63ff, #7b78ff);
+    color: #fff;
     text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem 0;
 }
 
-.main-header h1 {
+header h1 {
     font-size: 2.5rem;
     margin-bottom: 0.5rem;
 }
 
-.main-header p {
+header p {
     font-size: 1.2rem;
 }
 
-/* Main Content Styles */
-.main-content {
-    max-width: 960px;
-    width: 100%;
+/* Área principal */
+main {
+    max-width: 800px;
+    margin: 2rem auto;
     padding: 1rem;
-    margin: auto;
 }
 
-.story-form {
-    background: white;
-    padding: 2rem;
+.form-section, .stories-section {
+    background: #fff;
+    padding: 1.5rem;
     border-radius: 10px;
     margin-bottom: 2rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.story-form h2 {
-    font-size: 1.5rem;
+h2 {
+    font-size: 1.8rem;
     margin-bottom: 1rem;
-    color: #6C63FF;
 }
 
-.story-form textarea {
+textarea {
     width: 100%;
-    height: 100px;
     padding: 1rem;
+    font-size: 1rem;
     margin-bottom: 1rem;
     border: 1px solid #ddd;
-    border-radius: 6px;
-    font-size: 1rem;
+    border-radius: 8px;
     resize: vertical;
 }
 
-.story-form button {
-    background: #6C63FF;
+button {
+    background-color: #6c63ff;
     color: white;
     padding: 0.8rem 1.5rem;
-    font-size: 1rem;
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
     cursor: pointer;
-    transition: background 0.3s ease;
+    font-size: 1rem;
 }
 
-.story-form button:hover {
-    background: #7B78FF;
+button:hover {
+    background-color: #7b78ff;
 }
 
-.stories {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-}
-
-.story {
-    background: white;
-    padding: 1.5rem;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+/* Histórias */
+.stories-section .story {
+    background: #f9f9f9;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .story h3 {
     font-size: 1.2rem;
-    color: #6C63FF;
+    color: #6c63ff;
     margin-bottom: 0.5rem;
 }
 
@@ -106,3 +93,4 @@ body {
     font-size: 1rem;
     color: #555;
 }
+
