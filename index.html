@@ -1,32 +1,33 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Whisper Wall</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+
 </head>
 <body>
     <header>
         <h1>Whisper Wall</h1>
-        <p>Compartilhe suas histórias e pensamentos!</p>
+        <p>Bem vindo ao seu espaço para compartilhar histórias, pensamentos e inspirações. Aqui, cada palavra tem o poder de conectar, inspirar e transformar</p>
     </header>
 
-    <main>
-        <div>
-            <input type="text" id="userName" placeholder="Digite seu nome"/>
-            <button id="saveUserName">Salvar Nome</button>
+    <main class="container">
+        <div id="loginInfo">
+            <p id="authStatus">Conectando...</p>
         </div>
 
-        <textarea id="storyInput" placeholder="Escreva sua história..."></textarea>
-        <button id="submitStory">Enviar</button>
+        <div class="story-form">
+            <textarea id="storyInput" placeholder="Escreva sua história..."></textarea>
+            <button id="submitStory">Enviar</button>
+        </div>
 
-        <div id="storiesContainer"></div>
+        <div class="stories" id="storiesContainer"></div>
     </main>
 
-    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js"></script>
-    <script src="script.js"></script>
+    <script type="module" src="script.js"></script>
 </body>
 </html>
