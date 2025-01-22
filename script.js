@@ -1,3 +1,18 @@
+// Firebase configuration (substitua pelos dados do seu projeto)
+const firebaseConfig = {
+    apiKey: "SUA_API_KEY",
+    authDomain: "SEU_DOMÍNIO.firebaseapp.com",
+    databaseURL: "https://SEU_DATABASE_URL.firebaseio.com",
+    projectId: "SEU_PROJETO_ID",
+    storageBucket: "SEU_STORAGE_BUCKET.appspot.com",
+    messagingSenderId: "SEU_MESSAGING_ID",
+    appId: "SEU_APP_ID"
+};
+
+// Inicializar Firebase
+firebase.initializeApp(firebaseConfig);
+const database = firebase.database();
+
 // Selecionar elementos do DOM
 const submitButton = document.getElementById('submitStory');
 const storyInput = document.getElementById('storyInput');
@@ -14,35 +29,30 @@ function createStoryElement(title, text) {
     return storyDiv;
 }
 
-// Função para adicionar uma história ao container
-function addStoryToContainer(title, text) {
-    const storyElement = createStoryElement(title, text);
-    storiesContainer.insertBefore(storyElement, storiesContainer.firstChild);
+// Função para carregar histórias do Firebase
+function loadStoriesFromFirebase() {
+    database.ref('stories').on('value', (snapshot) => {
+        storiesContainer.innerHTML = ''; // Limpa o container
+        const stories = snapshot.val();
+        for (let id in stories) {
+            const story = stories[id];
+            const storyElement = createStoryElement(story.title, story.text);
+            storiesContainer.appendChild(storyElement);
+        }
+    });
 }
 
 // Evento para capturar o envio de uma nova história
 submitButton.addEventListener('click', () => {
-    const storyText = storyInput.value.trim(); // Remove espaços extras
+    const storyText = storyInput.value.trim();
     if (storyText) {
-        addStoryToContainer('Nova História', storyText);
-        storyInput.value = ''; // Limpa o campo de texto após enviar
+        const newStory = { title: 'Nova História', text: storyText };
+        database.ref('stories').push(newStory); // Salva no Firebase
+        storyInput.value = ''; // Limpa o campo
     } else {
         alert('Por favor, escreva algo antes de enviar.');
     }
 });
 
-// Histórias de exemplo para preencher ao carregar o site
-const sampleStories = [
-    { title: 'História de exemplo 1', text: 'Esta é a primeira história para mostrar como funciona.' },
-    { title: 'História de exemplo 2', text: 'Você pode adicionar suas próprias histórias agora mesmo!' }
-];
-
-// Função para carregar histórias iniciais
-function loadSampleStories() {
-    sampleStories.forEach(story => {
-        addStoryToContainer(story.title, story.text);
-    });
-}
-
-// Inicializar o site com histórias de exemplo
-document.addEventListener('DOMContentLoaded', loadSampleStories);
+// Carregar histórias ao iniciar
+loadStoriesFromFirebase();
