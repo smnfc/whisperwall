@@ -123,10 +123,10 @@
         </div>
     </div>
 
-    <!-- Importando o Firebase e o script JS -->
+    <!-- Firebase e JS -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
-    <script type="module">
+    <script>
         // Configuração do Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyBItWx-Ly7KWA-PixHIvm2uHwgOh5-0NiA",
@@ -140,8 +140,8 @@
         };
 
         // Inicializar Firebase
-        const app = firebase.initializeApp(firebaseConfig);
-        const database = firebase.database(app);
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
 
         // Selecionar elementos do DOM
         const submitButton = document.getElementById('submitStory');
@@ -161,7 +161,7 @@
 
         // Função para carregar histórias do Firebase
         function loadStoriesFromFirebase() {
-            const storiesRef = firebase.database().ref('stories');
+            const storiesRef = database.ref('stories');
             storiesRef.on('value', (snapshot) => {
                 storiesContainer.innerHTML = ''; // Limpa o container
                 const stories = snapshot.val();
@@ -178,7 +178,7 @@
         submitButton.addEventListener('click', () => {
             const storyText = storyInput.value.trim();
             if (storyText) {
-                const storiesRef = firebase.database().ref('stories');
+                const storiesRef = database.ref('stories');
                 const newStory = { title: 'Nova História', text: storyText };
                 storiesRef.push(newStory); // Salva a história no Firebase
                 storyInput.value = ''; // Limpa o campo de texto
