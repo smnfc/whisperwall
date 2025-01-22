@@ -28,7 +28,7 @@ h1, h2, h3 {
 /* Entrada de texto */
 textarea {
     width: 100%;
-    padding: 12px;
+    padding: 6px;
     font-family: 'Georgia', serif;
     font-size: 16px;
     border: 1px solid #575767; /* Bordas suaves */
