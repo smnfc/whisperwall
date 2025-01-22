@@ -3,32 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Whisper Wall</title>
     <link rel="stylesheet" href="style.css">
-    <script src="https://www.gstatic.com/firebasejs/9.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.10.0/firebase-database.js"></script>
-    <script defer src="script.js"></script>
+    <script type="module" src="script.js" defer></script>
 </head>
 <body>
-    <header class="main-header">
-        <div class="header-content">
-            <h1>Whisper Wall</h1>
-            <p>Your daily story hub</p>
-        </div>
+    <header>
+        <h1>Whisper Wall</h1>
+        <p>Share your story with the world</p>
     </header>
-    <main class="main-content">
-        <section class="story-form">
+    <main>
+        <section class="form-section">
             <h2>Share Your Story</h2>
-            <textarea id="storyInput" rows="5" placeholder="Write your story here..."></textarea>
+            <textarea id="storyInput" placeholder="Write your story here..."></textarea>
             <button id="submitStory">Submit</button>
         </section>
-        <section class="stories" id="storiesContainer">
-            <!-- Stories will load dynamically here -->
+        <section class="stories-section">
+            <h2>Stories</h2>
+            <div id="storiesContainer">
+                <!-- Stories will be dynamically loaded here -->
+            </div>
         </section>
     </main>
 </body>
 </html>
+
 
 
        
