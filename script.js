@@ -52,19 +52,14 @@ onAuthStateChanged(auth, (user) => {
     }
 });
 
-// Função para enviar histórias
+// Função para enviar histórias com animação
 submitButton.addEventListener("click", () => {
-    console.log("Botão clicado!");
-
     if (!currentUser) {
-        console.error("Usuário não autenticado!");
         alert("Você precisa estar logado para enviar uma mensagem.");
         return;
     }
 
     const storyText = storyInput.value.trim();
-    console.log("Texto da história:", storyText);
-
     if (storyText) {
         const storiesRef = ref(database, "stories");
         push(storiesRef, {
@@ -73,8 +68,13 @@ submitButton.addEventListener("click", () => {
             timestamp: Date.now()
         })
             .then(() => {
-                console.log("História enviada com sucesso!");
                 storyInput.value = "";
+
+                // Animação de confirmação
+                submitButton.style.transform = "scale(1.1)";
+                setTimeout(() => {
+                    submitButton.style.transform = "scale(1)";
+                }, 200);
             })
             .catch((error) => {
                 console.error("Erro ao enviar história:", error);
@@ -118,7 +118,7 @@ onValue(storiesRef, (snapshot) => {
     }
 });
 
-// Função para apagar histórias
+// Função para apagar histórias com animação
 const deleteStory = (id) => {
     if (!currentUser) {
         alert("Você precisa estar logado para apagar mensagens.");
@@ -128,7 +128,13 @@ const deleteStory = (id) => {
     const storyRef = ref(database, `stories/${id}`);
     remove(storyRef)
         .then(() => {
-            console.log("História apagada com sucesso.");
+            const storyElement = document.querySelector(`button[data-id="${id}"]`).parentElement;
+            storyElement.style.transition = "opacity 0.3s ease, transform 0.3s ease";
+            storyElement.style.opacity = "0";
+            storyElement.style.transform = "translateY(-10px)";
+            setTimeout(() => {
+                storyElement.remove();
+            }, 300);
         })
         .catch((error) => {
             console.error("Erro ao apagar história:", error);
