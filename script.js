@@ -94,17 +94,25 @@ onValue(storiesRef, (snapshot) => {
                 <p>${story.text}</p>
                 ${
                     story.createdBy === (currentUser ? currentUser.uid : "")
-                        ? `<button class="delete-btn" onclick="deleteStory('${id}')">Apagar</button>`
+                        ? `<button class="delete-btn" data-id="${id}">Apagar</button>`
                         : ""
                 }
             `;
             storiesContainer.appendChild(storyDiv);
         });
+
+        // Adicionar evento de clique aos botões de apagar
+        document.querySelectorAll(".delete-btn").forEach((button) => {
+            button.addEventListener("click", (e) => {
+                const storyId = e.target.getAttribute("data-id");
+                deleteStory(storyId);
+            });
+        });
     }
 });
 
 // Função para apagar uma história (somente pelo autor)
-window.deleteStory = (id) => {
+const deleteStory = (id) => {
     if (!currentUser) {
         alert("Você precisa estar logado para apagar mensagens.");
         return;
@@ -119,4 +127,3 @@ window.deleteStory = (id) => {
             console.error("Erro ao apagar história:", error);
         });
 };
-
