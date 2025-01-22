@@ -3,39 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Whisper Wall</title>
-    <!-- Incluindo o arquivo de estilos -->
     <link rel="stylesheet" href="style.css">
-    <!-- Incluindo o arquivo de script -->
-    <script type="module" src="script.js" defer></script>
 </head>
 <body>
-    <!-- Cabeçalho do site -->
     <header>
         <h1>Whisper Wall</h1>
-        <p>Share your story with the world</p>
+        <p>A diary for everyone</p>
     </header>
 
-    <!-- Conteúdo principal -->
-    <main>
-        <!-- Seção do formulário para adicionar histórias -->
-        <section class="form-section">
-            <h2>Share Your Story</h2>
-            <textarea id="storyInput" placeholder="Write your story here..."></textarea>
-            <button id="submitStory">Submit</button>
-        </section>
+    <main class="container">
+        <div id="loginInfo">
+            <p id="authStatus">Conectando...</p>
+        </div>
 
-        <!-- Seção para exibir as histórias -->
-        <section class="stories-section">
-            <h2>Stories</h2>
-            <div id="storiesContainer">
-                <!-- Histórias serão carregadas dinamicamente aqui -->
-            </div>
-        </section>
+        <div class="story-form">
+            <textarea id="storyInput" placeholder="Escreva sua história..."></textarea>
+            <button id="submitStory">Enviar</button>
+        </div>
+
+        <div class="stories" id="storiesContainer"></div>
     </main>
+
+    <script type="module" src="script.js"></script>
 </body>
 </html>
-
 
 
        
