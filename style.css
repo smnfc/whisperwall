@@ -9,7 +9,7 @@ textarea {
     border: 1px solid #575767; /* Bordas suaves */
     border: 1px solid #333; /* Ajusta a borda para um contraste mais claro */
     border-radius: 6px;
-    background-color: #222233; /* Fundo mais escuro */
+    background-color: black; /* Fundo mais escuro */
     color: #e6e6e6; /* Texto claro */
     background-color: #2e2e2e; /* Fundo mais escuro */
     color: #fff; /* Texto claro */
