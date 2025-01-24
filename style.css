@@ -13,7 +13,7 @@ textarea {
     border: 1px solid #333; /* Ajusta a borda para um contraste mais claro */
     border-radius: 6px;
     color: #e6e6e6; /* Texto claro */
-    background-color: #2e2e2e; /* Fundo mais escuro */
+    background-color: white; /* Fundo mais escuro */
     color: #fff; /* Texto claro */
     resize: none;
     height: 120px;
