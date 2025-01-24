@@ -1,4 +1,7 @@
 /* Entrada de texto */
+body {
+    backgound-color: black;
+}
 textarea {
     width: 100%;
     padding: 12px;
